@@ -1,13 +1,12 @@
 # !/usr/bin/env python
 # encoding:utf-8
 import os
-
 import datetime
-
 import sys
 import psutil
 import time
 import subprocess
+from libs.util import TextOp
 
 
 def get_now_time():
@@ -20,7 +19,7 @@ class Sys:
         pass
 
     @staticmethod
-    def shell_exec_single(cmdstring, timeout=None):
+    def shell_exec_single(cmdstring, timeout=8):
         """
         :param cmdstring: str, shell command
         :param timeout: int
@@ -28,7 +27,7 @@ class Sys:
         """
         if timeout:
             end_time = datetime.datetime.now() + datetime.timedelta(seconds=timeout)
-        sub = subprocess.Popen(cmdstring, stdin=subprocess.PIPE, bufsize=4096, shell=True)
+        sub = subprocess.Popen(cmdstring, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
         while True:
             if sub.poll() is not None:
                 break
@@ -57,8 +56,14 @@ class Sys:
         """
         :return: dict {socket_num, cpu_num, cpu_model, cpu_core, cpu_step}
         """
-
-        pass
+        dmi_str = Sys.shell_exec_single("dmidecode -t processor")
+        t_list_socket = TextOp.find_str(dmi_str, "[^ ]+ Socket LGA.+", False)
+        t_list_cpu_model = TextOp.find_str(dmi_str, "[^ ]+Version:.+", False)
+        if t_list_socket is None:
+            return {}
+        ret_dict = {
+            "socket_num": t_list_socket.count()
+        }
 
 
 
