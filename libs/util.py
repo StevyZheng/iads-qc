@@ -19,7 +19,7 @@ class TextOp:
         :return: list
         """
         if strip:
-            reg_str = "\S" + reg_str + "\S"
+            reg_str = "\S" + reg_str + "\S|\S" + reg_str + "|" + reg_str + "\S"
         if case:
             ret_list = re.findall(reg_str, src_str)
         else:
