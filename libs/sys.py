@@ -61,6 +61,9 @@ class Sys:
         t_list_cpu_model = TextOp.find_str_column(dmi_str, ".+Version:.+", 1, ":", False)
         t_list_cpu_core = TextOp.find_str_column(dmi_str, ".+Core Count:.+", 1, ":", False)
         t_list_cpu_stepping = TextOp.find_str_column(dmi_str, "Stepping [0-9]+", 1, " ", False)
+
+        print(t_list_cpu_model.__str__())
+
         if t_list_socket is None:
             return {}
         ret_dict = {
