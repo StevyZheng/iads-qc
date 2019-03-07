@@ -4,5 +4,8 @@ from libs.sys import Sys
 from libs.util import TextOp
 
 
-print(Sys.get_cpu_info())
+with open("x.txt") as fp:
+    txt = fp.read()
+print(TextOp.find_str(txt, ".+Version.+"))
+
 
