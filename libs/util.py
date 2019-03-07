@@ -41,6 +41,6 @@ class TextOp:
         ret_list = []
         for row_str in row_list:
             split_list = row_str.split(split_str)
-            if split_list.__len__() > column:
+            if len(split_list) > column:
                 ret_list.append(split_list[column])
         return ret_list

@@ -64,8 +64,8 @@ class Sys:
         if t_list_socket is None:
             return {}
         ret_dict = {
-            "socket_num": t_list_socket.count(),
-            "cpu_num": t_list_cpu_model.count(),
+            "socket_num": len(t_list_socket),
+            "cpu_num": len(t_list_cpu_model),
             "cpu_model": str(t_list_cpu_model[0]).strip(),
             "cpu_core": int(str(t_list_cpu_core[0]).strip()),
             "cpu_stepping": str(t_list_cpu_stepping[0]).strip()
