@@ -1,9 +1,16 @@
 # !/usr/bin/env python
 # encoding:utf-8
-from libs.sys import Sys
-from libs.util import TextOp
+import fire
+from fire_sun import *
 
 
-print(Sys.get_cpu_info().__str__())
+class Main(object):
+    def __init__(self):
+        self.cpu = Cpu()
+        self.memory = Memory()
+
+
+if __name__ == '__main__':
+    fire.Fire(Main)
 
 

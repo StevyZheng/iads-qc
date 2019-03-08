@@ -6,7 +6,7 @@ import re
 import traceback
 
 
-class Debug:
+class Debug(object):
     """  调试及异常相关函数方法 """
     def __init__(self):
         pass
@@ -43,7 +43,7 @@ class Debug:
         return "exception msg:{0}{1}{0}traceback:{0}{2}".format(os.linesep, Exception(ex).message, traceback.format_exc())
 
 
-class TextOp:
+class TextOp(object):
     def __init__(self):
         pass
 

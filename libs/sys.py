@@ -1,12 +1,9 @@
 # !/usr/bin/env python
 # encoding:utf-8
-import os
 import datetime
-import sys
 import psutil
 import time
 import subprocess
-import inspect
 from libs.util import TextOp, Debug
 
 
@@ -15,7 +12,7 @@ def get_now_time():
     return localtime
 
 
-class Sys:
+class Sys(object):
     def __init__(self):
         pass
 
