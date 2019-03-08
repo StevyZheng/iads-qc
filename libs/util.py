@@ -1,16 +1,54 @@
 # !/usr/bin/env python
 # encoding:utf-8
-
+import inspect
 import os
 import re
+import traceback
+
+
+class Debug:
+    """  调试及异常相关函数方法 """
+    def __init__(self):
+        pass
+
+    @classmethod
+    def get_class(cls, dist_cls):
+        """
+        :param dist_cls: 目标类
+        :return: 返回调用函数的类名
+        """
+        return dist_cls.__name__
+
+    @classmethod
+    def get_class_mod(cls, dist_cls):
+        """
+        :param dist_cls: 目标类
+        :return: 返回目标类中调用函数的模块全名
+        """
+        return dist_cls.__module__
+
+    @classmethod
+    def get_current_function_name(cls):
+        """
+        :return: 返回当前的函数名
+        """
+        return inspect.stack()[1][3]
+
+    @classmethod
+    def get_except(cls, ex):
+        """
+        :param ex: 异常变量
+        :return: 返回要打印的异常字符串
+        """
+        return "exception msg:{0}{1}{0}traceback:{0}{2}".format(os.linesep, Exception(ex).message, traceback.format_exc())
 
 
 class TextOp:
     def __init__(self):
         pass
 
-    @staticmethod
-    def find_str(src_str, reg_str, case=True, strip=True):
+    @classmethod
+    def find_str(cls, src_str, reg_str, case=True, strip=True):
         """
         :param strip:
         :param src_str:
@@ -32,8 +70,8 @@ class TextOp:
                 ret_list.append(ret_str)
         return ret_list
     
-    @staticmethod
-    def find_str_column(src_str, reg_str, column, split_str, case=True, strip=True):
+    @classmethod
+    def find_str_column(cls, src_str, reg_str, column, split_str, case=True, strip=True):
         """
         :param strip:
         :param src_str:
