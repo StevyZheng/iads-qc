@@ -18,12 +18,18 @@ class TextOp:
         :param case: true upper lower, false not
         :return: list
         """
-        if strip:
-            reg_str = "\S" + reg_str + "\S|\S" + reg_str + "|" + reg_str + "\S"
         if case:
-            ret_list = re.findall(reg_str, src_str)
+            it = re.finditer(reg_str, src_str)
         else:
-            ret_list = re.findall(reg_str, src_str, re.I)
+            it = re.finditer(reg_str, src_str, re.I)
+        ret_list = []
+        for match in it:
+            if match is not None:
+                if strip:
+                    ret_str = match.group().strip()
+                else:
+                    ret_str = match.group()
+                ret_list.append(ret_str)
         return ret_list
     
     @staticmethod
