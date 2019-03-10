@@ -1,6 +1,6 @@
 # !/usr/bin/env python
 # encoding:utf-8
-from libs.hardware.main_hw import CpuMem
+from libs.hw_op.main_hw import CpuMem
 
 
 class Cpu(object):
