@@ -4,6 +4,7 @@ import inspect
 import os
 import re
 import traceback
+import numpy as np
 
 
 class Debug(object):
@@ -88,3 +89,23 @@ class TextOp(object):
             if len(split_list) > column:
                 ret_list.append(split_list[column])
         return ret_list
+
+
+class Math(object):
+    def __init__(self):
+        pass
+    
+    @classmethod
+    def solve_equations(cls):
+        """
+        CPU、内存负载，单进程占一个线程，占1GB内存
+        :return: 求得的方程解
+        """
+        matrix_a = np.random.rand(8000, 8000)
+        matrix_b = np.random.rand(8000, 1)
+        matrix_ret = np.linalg.solve(matrix_a, matrix_b)
+        print(matrix_ret)
+        
+
+
+
