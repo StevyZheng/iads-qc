@@ -65,7 +65,10 @@ class Sys(object):
             }
         except Exception as ex:
             print(Debug.get_except(ex))
-        return mem_dict
+        if len(mem_dict) > 0:
+            return mem_dict
+        else:
+            return None
 
     @classmethod
     def get_cpu_info(cls):
@@ -90,4 +93,14 @@ class Sys(object):
             }
         except Exception as ex:
             print(Debug.get_except(ex))
-        return ret_dict
+        if len(ret_dict) >  0:
+            return ret_dict
+        else:
+            return None
+    
+    @classmethod
+    def get_hba_info(cls):
+        pass
+
+
+

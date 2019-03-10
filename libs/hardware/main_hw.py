@@ -17,6 +17,8 @@ class CpuMem(object):
         """
         cpu_info = Sys.get_cpu_info()
         mem_info = Sys.get_mem_info()
+        if cpu_info is None or mem_info is None:
+            raise Exception("error: cpu_info is None or mem_info is None.")
         cpu_core_num = mem_size = 0
         if "cpu_core" in cpu_info and "cpu_num" in cpu_info:
             cpu_core_num = cpu_info["cpu_core"] * cpu_info["cpu_num"]
@@ -35,7 +37,7 @@ class CpuMem(object):
             p.close()
             p.join()
         else:
-            print("error: cpu_core_num <= 0!")
+            raise Exception("error: cpu_core_num <= 0!")
 
             
 
