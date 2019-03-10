@@ -101,6 +101,11 @@ class Sys(object):
     @classmethod
     def get_hba_info(cls):
         pass
+    
+    @classmethod
+    def get_through_disk(cls):
+        lsscsi_str = Sys.shell_exec_single("lsscsi")
+    
 
 
 
