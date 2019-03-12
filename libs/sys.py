@@ -122,6 +122,10 @@ class Sys(object):
 			i += 3
 		gpu_id_str = Sys.shell_exec_single("nvidia-smi -a")
 		return slot_dict
+	
+	@classmethod
+	def collect_logs(cls):
+		pass
 
 
 
