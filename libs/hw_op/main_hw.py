@@ -22,8 +22,8 @@ class CpuMem(object):
         cpu_core_num = mem_size = 0
         if "cpu_core" in cpu_info and "cpu_num" in cpu_info:
             cpu_core_num = cpu_info["cpu_core"] * cpu_info["cpu_num"]
-        if "memsize" in mem_info:
-            mem_size = mem_info["memsize"]
+        if "available" in mem_info:
+            mem_size = mem_info["available"]
         mem_size_GB = int(mem_size / 1024)
         if cpu_core_num >= burn_core_count >= 0:
             cpu_core_num = burn_core_count
