@@ -33,7 +33,7 @@ class CpuMem(object):
             cpu_core_num = cpu_core_num * 2 - 1
             p = mp.Pool(processes=cpu_core_num)
             for th in range(cpu_core_num):
-                p.apply_async(Math.solve_equations)
+                p.apply_async(target=Math.solve_equations)
             p.close()
             p.join()
         else:
