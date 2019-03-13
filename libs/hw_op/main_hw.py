@@ -29,8 +29,10 @@ class CpuMem(object):
 			cpu_core_num = burn_core_count
 		if mem_size_GB < cpu_core_num * 2:
 			cpu_core_num = mem_size_GB / 2
+			print("1:" + str(cpu_core_num))
 		if cpu_core_num > 0:
 			cpu_core_num = cpu_core_num * 2 - 1
+			print("2:" + str(cpu_core_num))
 			p_list = []
 			for th in range(cpu_core_num):
 				p = multiprocessing.Process(target=Math.solve_equations)
