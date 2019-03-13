@@ -124,8 +124,8 @@ class Math(object):
         """
 		# matrix_a = np.random.rand(8000, 8000)
 		# matrix_b = np.random.rand(8000, 1)
-		matrix_a = Math.random_matrix(3200, 3200)
-		matrix_b = Math.random_matrix(1, 3200)
+		matrix_a = Math.random_matrix(3800, 3800)
+		matrix_b = Math.random_matrix(1, 3800)
 		row_len = len(matrix_a)
 		column_len = len(matrix_b[0])
 		cross_len = len(matrix_b)

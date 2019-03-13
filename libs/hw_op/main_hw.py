@@ -24,17 +24,17 @@ class CpuMem(object):
 			cpu_core_num = cpu_info["cpu_core"] * cpu_info["cpu_num"]
 		if "available" in mem_info:
 			mem_size = mem_info["available"]
-		mem_size_GB = int(mem_size / 1024)
 		if cpu_core_num >= burn_core_count >= 0:
 			cpu_core_num = burn_core_count
-		if mem_size_GB * 2 < cpu_core_num * 2:
-			cpu_core_num = mem_size_GB
-			print("1:" + str(cpu_core_num))
+		mem_per_process = 500
+		mem_process = mem_size / mem_per_process
+		if mem_process < cpu_core_num * 2:
+			run_process = mem_process - 1
+		else:
+			run_process = cpu_core_num * 2 - 1
 		if cpu_core_num > 0:
-			cpu_core_num = cpu_core_num * 2 - 1
-			print("2:" + str(cpu_core_num))
 			p_list = []
-			for th in range(cpu_core_num):
+			for th in range(run_process):
 				p = multiprocessing.Process(target=Math.solve_equations)
 				p_list.append(p)
 			for p1 in p_list:
