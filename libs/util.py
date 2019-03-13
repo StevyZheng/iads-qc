@@ -5,7 +5,6 @@ import os
 import re
 import traceback
 import random
-import numpy as np
 
 
 class Debug(object):
@@ -117,7 +116,6 @@ class Math(object):
 			matrix.append(column_it)
 		return matrix
 			
-	
 	@classmethod
 	def solve_equations(cls):
 		"""
@@ -126,15 +124,15 @@ class Math(object):
         """
 		# matrix_a = np.random.rand(8000, 8000)
 		# matrix_b = np.random.rand(8000, 1)
-		matrix_a = Math.random_matrix(8000, 8000)
-		matrix_b = Math.random_matrix(8000, 1)
+		matrix_a = Math.random_matrix(5000, 5000)
+		matrix_b = Math.random_matrix(1, 5000)
 		row_len = len(matrix_a)
 		column_len = len(matrix_b[0])
 		cross_len = len(matrix_b)
 		res_mat = [[0] * row_len] * column_len
-		for i in range(row_len):
-			for j in range(column_len):
-				for k in range(cross_len):
-					temp = matrix_a[i][k] * matrix_b[k][j]
-					res_mat[i][j] += temp
-		print(res_mat)
+		while True:
+			for i in range(row_len):
+				for j in range(column_len):
+					for k in range(cross_len):
+						temp = matrix_a[i][k] * matrix_b[k][j]
+						res_mat[i][j] += temp
