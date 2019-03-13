@@ -27,8 +27,8 @@ class CpuMem(object):
 		mem_size_GB = int(mem_size / 1024)
 		if cpu_core_num >= burn_core_count >= 0:
 			cpu_core_num = burn_core_count
-		if mem_size_GB < cpu_core_num * 2:
-			cpu_core_num = mem_size_GB / 2
+		if mem_size_GB * 2 < cpu_core_num * 2:
+			cpu_core_num = mem_size_GB
 			print("1:" + str(cpu_core_num))
 		if cpu_core_num > 0:
 			cpu_core_num = cpu_core_num * 2 - 1
