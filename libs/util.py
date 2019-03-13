@@ -91,6 +91,14 @@ class TextOp(object):
 			if len(split_list) > column:
 				ret_list.append(split_list[column])
 		return ret_list
+	
+	@classmethod
+	def split_str(cls,  src_str,  split_str):
+		if isinstance(src_str, str) and isinstance(split_str, str):
+			ret_list = src_str.split(split_str)
+			return ret_list
+		else:
+			return None
 
 
 class Math(object):

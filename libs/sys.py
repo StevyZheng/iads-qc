@@ -4,6 +4,8 @@ import datetime
 import psutil
 import time
 import subprocess
+import paramiko
+import pymysql
 from libs.util import TextOp, Debug
 
 
@@ -125,7 +127,33 @@ class Sys(object):
 	
 	@classmethod
 	def collect_logs(cls):
-		pass
+		Sys.shell_exec_single("./collector.sh")
+	
+	@classmethod
+	def scp(cls, src, dist_ip, dist, username="root", passwd="000000"):
+		try:
+			transport = paramiko.Transport((dist_ip, 22))
+			transport.connect(username=username, password=passwd)
+			sftp = paramiko.SFTPClient.from_transport(transport)
+			sftp.put(src, dist)
+			transport.close()
+		except Exception as  ex:
+			print(Debug.get_except(ex))
+	
+	@classmethod
+	def post_mysql_upload(cls, host, user, passwd, db, table, src_file, dist_file, port=3306):
+		split_list = TextOp.split_str(src_file, "_")
+		conn = pymysql.connect(host, port, user, passwd, db, charset='utf-8')
+		cursor = conn.cursor()
+		try:
+			cursor.execute("insert into {0}(file_name,file_path) values ('{1}','{2}')".format(table, split_list[0], dist_file))
+			conn.commit()
+		except Exception as ex:
+			conn.rollback()
+			print(Debug.get_except(ex))
+		finally:
+			cursor.close()
+			conn.close()
 
 
 
