@@ -4,6 +4,7 @@ import inspect
 import os
 import re
 import traceback
+import random
 import numpy as np
 
 
@@ -106,12 +107,34 @@ class Math(object):
 		pass
 	
 	@classmethod
+	def random_matrix(cls, row, column):
+		matrix = []
+		for j in range(row):
+			column_it = []
+			for i in range(column):
+				a = random.uniform(1, 10)
+				column_it.append(a)
+			matrix.append(column_it)
+		return matrix
+			
+	
+	@classmethod
 	def solve_equations(cls):
 		"""
         CPU、内存负载，单进程占一个线程，占1GB内存
         :return: 求得的方程解
         """
-		matrix_a = np.random.rand(8000, 8000)
-		matrix_b = np.random.rand(8000, 1)
-		matrix_ret = np.linalg.solve(matrix_a, matrix_b)
-		print(matrix_ret)
+		# matrix_a = np.random.rand(8000, 8000)
+		# matrix_b = np.random.rand(8000, 1)
+		matrix_a = Math.random_matrix(8000, 8000)
+		matrix_b = Math.random_matrix(8000, 1)
+		row_len = len(matrix_a)
+		column_len = len(matrix_b[0])
+		cross_len = len(matrix_b)
+		res_mat = [[0] * row_len] * column_len
+		for i in range(row_len):
+			for j in range(column_len):
+				for k in range(cross_len):
+					temp = matrix_a[i][k] * matrix_b[k][j]
+					res_mat[i][j] += temp
+		print(res_mat)
