@@ -59,7 +59,7 @@ class Sys(object):
 		try:
 			mem_dict = {
 				"mem_socet_num": len(t_list_mem_socket),
-				"max_mem_size": max_mem_size,
+				"max_mem_size": max_mem_size[0],
 				"mem_model": t_list_mem_model[0],
 				"total": mem.total / memory_convent,
 				"available": mem.available / memory_convent,
@@ -102,7 +102,62 @@ class Sys(object):
 	
 	@classmethod
 	def get_hba_info(cls):
-		pass
+		ret_dict = {}
+		hba_list_str = Sys.shell_exec_single("sas3ircu list")
+		hba_index_list = TextOp.find_str_column(hba_list_str, "[0-9]+ +(SAS|LSI)[0-9]{4}", 0, " ")[0]
+		hba_chipset_list = TextOp.find_str_column(hba_list_str, "[0-9]+ +(SAS|LSI)[0-9]{4}", 1, " ")[0]
+		if len(hba_index_list) == 0:
+			return None
+		i = 0
+		while i < len(hba_index_list):
+			i_str = hba_index_list[i]
+			ret_dict[i_str]["chipset"] = hba_chipset_list[i]
+			hba_status_str = Sys.shell_exec_single("sas3ircu 0 display")
+			ret_dict[i_str]["fw"] = TextOp.find_str_column(hba_status_str, "Firmware version.+([0-9]|\.)+", 1, ":")[0]
+			ret_dict[i_str]["bios"] = TextOp.find_str_column(hba_status_str, "BIOS version.+([0-9]|\.)+", 1, ":")[0]
+			# dev_type_list = TextOp.find_str(hba_status_str, "Device is a.+")
+			i += 1
+	
+	@classmethod
+	def get_hwraid_info(cls):
+		def _split(string):
+			if isinstance(string, str):
+				return string.split(":")[1]
+		ret_dict = {}
+		raid_list_str = Sys.shell_exec_single("storcli show")
+		raid_index_list = TextOp.find_str_column(raid_list_str, "[0-9]+ (LSI[0-9]{4}|([a-z]|[A-Z])+[0-9]{4}-[0-9]+(i|e))", 0, " ")[0]
+		raid_chipset_list = TextOp.find_str_column(raid_list_str, "[0-9]+ (LSI[0-9]{4}|([a-z]|[A-Z])+[0-9]{4}-[0-9]+(i|e))", 1, " ")[0]
+		if len(raid_list_str) == 0:
+			return None
+		i = 0
+		while i < len(raid_index_list):
+			i_str = raid_index_list[i]
+			ret_dict[i_str]["chipset"] = raid_chipset_list[i]
+			raid_status_str = Sys.shell_exec_single("storcli /c{0} show".format(i_str))
+			ret_dict[i_str]["fw"] = TextOp.find_str_column(raid_status_str, "FW Version.+", 1, "=")[0]
+			ret_dict[i_str]["bios"] = TextOp.find_str_column(raid_status_str, "BIOS Version.+", 1, "=")[0]
+			ret_dict[i_str]["driver"] = TextOp.find_str_column(raid_status_str, "Driver Version.+", 1, "=")[0]
+			ret_dict[i_str]["sn"] = TextOp.find_str_column(raid_status_str, "Serial Number.+", 1, "=")[0]
+			ret_dict[i_str]["sasaddr"] = TextOp.find_str_column(raid_status_str, "SAS Address.+", 1, "=")[0]
+			disk_eid_list = TextOp.find_str_column(raid_status_str, "^[0-9]+:[0-9]+.+", 0, ":")
+			disk_slt_list = list(map(_split, TextOp.find_str_column(raid_status_str, "^[0-9]+:[0-9]+.+", 0, " ")))
+			disk_did_list = TextOp.find_str_column(raid_status_str, "^[0-9]+:[0-9]+.+", 1, " ")
+			disk_state_list = TextOp.find_str_column(raid_status_str, "^[0-9]+:[0-9]+.+", 2, " ")
+			disk_model_list = TextOp.find_str_column(raid_status_str, "", 11, " ")
+			ret_dict[i_str]["disk"] = []
+			for index, item in enumerate(disk_eid_list):
+				disk_dict = {
+					"slot": disk_slt_list[index],
+					"eid": disk_eid_list[index],
+					"state": disk_state_list[index],
+					"did": disk_did_list[index],
+					"model": disk_model_list[index]
+				}
+				ret_dict[i_str]["disk"].append(disk_dict)
+			i += 1
+			
+			
+			
 	
 	@classmethod
 	def get_through_disk(cls):
@@ -127,7 +182,7 @@ class Sys(object):
 	
 	@classmethod
 	def collect_logs(cls):
-		Sys.shell_exec_single("./collector.sh")
+		Sys.shell_exec_single("collector.sh")
 	
 	@classmethod
 	def scp(cls, src, dist_ip, dist, username="root", passwd="000000"):

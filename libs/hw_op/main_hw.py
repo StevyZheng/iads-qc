@@ -45,4 +45,9 @@ class CpuMem(object):
 			raise Exception("error: cpu_core_num <= 0!")
 
 			
+class Disk(object):
+	def __init__(self):
+		pass
+
+
 

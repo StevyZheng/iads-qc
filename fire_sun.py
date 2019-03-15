@@ -3,6 +3,7 @@
 from libs.hw_op.main_hw import CpuMem
 from libs.hw_op.hw_log import LogFile
 from libs.err_msg import log_file_list
+from libs.sys import *
 import json
 
 
@@ -20,6 +21,32 @@ class Memory(object):
 	
 	def burn(self, burn_core=-1):
 		CpuMem.burn_cpu_mem(burn_core)
+
+
+class HBACard(object):
+	def __init__(self):
+		pass
+	
+	def info(self):
+		ret_dict = Sys.get_hba_info()
+		if ret_dict is None:
+			raise Exception("System has no hba card!")
+		else:
+			ret_json_str = json.dumps(ret_dict, indent=2)
+			print(ret_json_str)
+
+
+class RaidCard(object):
+	def __init__(self):
+		pass
+	
+	def info(self):
+		ret_dict = Sys.get_hwraid_info()
+		if ret_dict is None:
+			raise Exception("System has no raid card!")
+		else:
+			ret_json_str = json.dumps(ret_dict, indent=2)
+			print(ret_json_str)
 
 
 class Log(object):

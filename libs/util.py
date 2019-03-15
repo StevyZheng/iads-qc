@@ -7,6 +7,22 @@ import traceback
 import random
 
 
+def _init():
+	global _global_dict
+	_global_dict = {}
+
+
+def _set_value(name, value):
+	_global_dict[name] = value
+
+
+def _get_value(name, defValue=None):
+	try:
+		return _global_dict[name]
+	except KeyError:
+		return defValue
+
+
 class Debug(object):
 	"""  调试及异常相关函数方法 """
 	
@@ -51,7 +67,7 @@ class TextOp(object):
 		pass
 	
 	@classmethod
-	def find_str(cls, src_str, reg_str, case=True, strip=True):
+	def find_str(cls, src_str, reg_str, case=True, strip=True, reS=False):
 		"""
         :param strip:
         :param src_str:
