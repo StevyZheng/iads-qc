@@ -28,7 +28,7 @@ class CpuMem(object):
 			cpu_core_num = burn_core_count
 		mem_per_process = 500
 		mem_process = mem_size / mem_per_process
-		if mem_process < cpu_core_num * 2:
+		if mem_process > cpu_core_num * 2:
 			run_process = mem_process - 1
 		else:
 			run_process = cpu_core_num * 2 - 1

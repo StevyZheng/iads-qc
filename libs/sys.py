@@ -155,10 +155,7 @@ class Sys(object):
 				}
 				ret_dict[i_str]["disk"].append(disk_dict)
 			i += 1
-			
-			
-			
-	
+									
 	@classmethod
 	def get_through_disk(cls):
 		lsscsi_str = Sys.shell_exec_single("lsscsi")

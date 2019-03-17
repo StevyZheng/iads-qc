@@ -135,11 +135,9 @@ class Math(object):
 	@classmethod
 	def solve_equations(cls):
 		"""
-        CPU、内存负载，单进程占一个线程，占1GB内存
+        CPU、内存负载，单进程占一个线程，占497MB内存
         :return: 求得的方程解
         """
-		# matrix_a = np.random.rand(8000, 8000)
-		# matrix_b = np.random.rand(8000, 1)
 		matrix_a = Math.random_matrix(3800, 3800)
 		matrix_b = Math.random_matrix(1, 3800)
 		row_len = len(matrix_a)
